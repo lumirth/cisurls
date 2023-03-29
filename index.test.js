@@ -1,4 +1,4 @@
-const { fixDocumentationURL, convertCourseURL } = require("../index");
+const { fixDocumentationURL, convertCourseURL } = require("./index");
 const axios = require("axios");
 
 jest.mock("axios");
