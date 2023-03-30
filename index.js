@@ -91,12 +91,10 @@ function convertCourseURL(url) {
   }
 
   // Make sure URL matches the pattern https://courses.illinois.edu/cisapp/explorer/schedule/:year/:term/:subject/:course.xml
-  const request = new XMLHttpRequest();
-  request.open("GET", url, false);
-  request.send(null);
-  if (request.status !== 200) {
+  const courseUrlPattern = /^https:\/\/courses\.illinois\.edu\/cisapp\/explorer\/schedule\/\d{4}\/(spring|summer|fall|winter)\/[A-Z]{2,4}\/\d{3}\.xml$/; 
+  if (!courseUrlPattern.test(url)) {
     throw new Error(
-      'The \"url\" parameter must be a UIUC CIS API Explorer course URL (like https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml).'
+      'The \"url\" parameter must be a UIUC CIS API Explorer course URL (like /:year/:term/:department/:course.xml).'
     );
   }
 

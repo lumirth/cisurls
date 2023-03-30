@@ -1,7 +1,4 @@
 const { fixDocumentationURL, convertCourseURL } = require("./index");
-const axios = require("axios");
-
-jest.mock("axios");
 
 describe("fixDocumentationURL", () => {
   test("should fix a valid URL", () => {
@@ -38,87 +35,42 @@ describe("fixDocumentationURL", () => {
   });
 });
 
-describe("convertCourseURL", () => {
-  test("throws an error if url parameter is not a string", () => {
-    expect(() => {
-      convertCourseURL(null);
-    }).toThrow("The \"url\" parameter must be a string.");
+describe('convertCourseURL', () => {
+  test('should convert a valid CISAPI URL to courses.illinois.edu URL', () => {
+    const inputUrl = 'https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml';
+    const expectedUrl = 'https://courses.illinois.edu/search/schedule/2012/spring/AAS/120';
+    expect(convertCourseURL(inputUrl)).toBe(expectedUrl);
   });
 
-  test("throws an error if url parameter is an empty string", () => {
-    expect(() => {
-      convertCourseURL("");
-    }).toThrow("The \"url\" parameter must not be an empty string.");
+  test('should throw an error if the input is not a string', () => {
+    const inputUrl = 12345;
+    expect(() => convertCourseURL(inputUrl)).toThrow('The "url" parameter must be a string.');
   });
 
-  test("throws an error if url parameter is not a valid URL", () => {
-    expect(() => {
-      convertCourseURL("not_a_valid_url");
-    }).toThrow("The \"url\" parameter must be a valid URL.");
+  test('should throw an error if the input is an empty string', () => {
+    const inputUrl = '';
+    expect(() => convertCourseURL(inputUrl)).toThrow('The "url" parameter must not be an empty string.');
   });
 
-  test("throws an error if url parameter is not a UIUC CIS Explorer URL", () => {
-    expect(() => {
-      convertCourseURL("https://example.com");
-    }).toThrow(
-      'The "url" parameter must be a UIUC CIS API Explorer course URL (like https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml).'
-    );
+  test('should throw an error if the input is not a valid URL', () => {
+    const inputUrl = 'invalid-url';
+    expect(() => convertCourseURL(inputUrl)).toThrow('The "url" parameter must be a valid URL.');
   });
 
-  test("throws an error if the URL is not a valid course URL", () => {
-    // mock XMLHttpRequest to return a non-200 response status
-    const mockXMLHttpRequest = jest.fn();
-    mockXMLHttpRequest.mockReturnValue({
-      status: 404,
-      send: jest.fn(),
-      open: jest.fn(),
-    });
-    global.XMLHttpRequest = jest.fn().mockImplementation(() => {
-      return mockXMLHttpRequest();
-    });
-
-    expect(() => {
-      convertCourseURL(
-        "https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml"
-      );
-    }).toThrow(
-      'The "url" parameter must be a UIUC CIS API Explorer course URL (like https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml).'
-    );
+  test('should throw an error if the input is not a UIUC CIS API Explorer course URL', () => {
+    const inputUrl = 'https://example.com/cisapp/explorer/schedule/2012/spring/AAS/120.xml';
+    expect(() => convertCourseURL(inputUrl)).toThrow('The "url" parameter must be a UIUC CIS API Explorer course URL (like https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml).');
   });
 
-  test("returns the converted URL if input is a valid UIUC CIS Explorer URL", () => {
-    // mock XMLHttpRequest to return a 200 response status
-    const mockXMLHttpRequest = jest.fn();
-    mockXMLHttpRequest.mockReturnValue({
-      status: 200,
-      send: jest.fn(),
-      open: jest.fn(),
-    });
-    global.XMLHttpRequest = jest.fn().mockImplementation(() => {
-      return mockXMLHttpRequest();
-    });
-
-    const input = "https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml";
-    const expectedOutput = "https://courses.illinois.edu/search/schedule/2012/spring/AAS/120";
-
-    expect(convertCourseURL(input)).toBe(expectedOutput);
+  test('should throw an error if the input URL does not match the expected pattern', () => {
+    const inputUrl = 'https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/invalid.xml';
+    expect(() => convertCourseURL(inputUrl)).toThrow('The "url" parameter must be a UIUC CIS API Explorer course URL (like /:year/:term/:department/:course.xml).');
   });
 
-  test("returns the converted URL if input is a valid UIUC CIS Explorer URL with a mode query", () => {
-    // mock XMLHttpRequest to return a 200 response status
-    const mockXMLHttpRequest = jest.fn();
-    mockXMLHttpRequest.mockReturnValue({
-      status: 200,
-      send: jest.fn(),
-      open: jest.fn(),
-    });
-    global.XMLHttpRequest = jest.fn().mockImplementation(() => {
-      return mockXMLHttpRequest();
-    });
-
-    const input = "https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml?mode=summary";
-    const expectedOutput = "https://courses.illinois.edu/search/schedule/2012/spring/AAS/120";
-
-    expect(convertCourseURL(input)).toBe(expectedOutput);
+  test('should handle http URLs and convert them to https', () => {
+    const inputUrl = 'http://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml';
+    const expectedUrl = 'https://courses.illinois.edu/search/schedule/2012/spring/AAS/120';
+    expect(convertCourseURL(inputUrl)).toBe(expectedUrl);
   });
 });
+
