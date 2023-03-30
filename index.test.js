@@ -92,14 +92,4 @@ describe("convertCourseURL", () => {
       'Didn\'t find "<sections>" tag inside the response. The "url" parameter must be a UIUC CIS Explorer course URL (like https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml).'
     );
   });
-
-  test("should throw an error if converted URL returns a 404", async () => {
-    const url =
-      "https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml";
-    axios.get.mockResolvedValueOnce({ data: "<sections></sections>" });
-    axios.get.mockRejectedValueOnce({ response: { status: 404 } });
-    await expect(convertCourseURL(url)).rejects.toThrow(
-      'URL returned a 404. The "url" did not convert to a valid course.illinois.edu page.'
-    );
-  });
 });

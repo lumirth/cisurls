@@ -109,15 +109,6 @@ async function convertCourseURL(url) {
   url = url.replace("/cisapp/explorer", "/search");
   url = url.replace(".xml", "");
 
-  // Test the URL to make sure it works
-  await axios.get(url).catch((error) => {
-    // catch 404 and print accordingly
-    if (error.response.status === 404) {
-      throw new Error(
-        'URL returned a 404. The "url" did not convert to a valid course.illinois.edu page.'
-      );
-    }
-  });
   return url;
 }
 

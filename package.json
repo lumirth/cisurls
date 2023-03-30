@@ -1,6 +1,6 @@
 {
   "name": "uiuc-cis-urls",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Some basic UIUC CIS API utilities. Fix URLs from the documentation, take API url and make it courses.illinois.edu web page URL, etc.",
   "main": "index.js",
   "scripts": {
