@@ -60,9 +60,7 @@ function fixDocumentationURL(url, addCascade = false) {
 
 // convert CISAPI URLs to courses.illinois.edu URLs
 // Can't be cascaded because needs to be course URL
-async function convertCourseURL(url) {
-  const axios = require('axios');
-
+function convertCourseURL(url) {
   // Check if the input is a valid string
   if (typeof url !== "string") {
     throw new Error('The "url" parameter must be a string.');
@@ -80,32 +78,29 @@ async function convertCourseURL(url) {
     throw new Error('The "url" parameter must be a valid URL.');
   }
 
-  // Check that the URL is a UIUC CIS Explorer URL(http[s]://courses.illinois.edu/cisapp/explorer/)
+  // Replace http:// with https://
+  url = url.replace(/^http:\/\//, "https://");
+
+  // Check that the URL is a UIUC CIS Explorer URL(http[s]://courses.illinois.edu/cisapp/explorer/schedule)
   const uiucCisExplorerPattern =
-    /^https?:\/\/courses\.illinois\.edu\/cisapp\/explorer\//;
+    /^https?:\/\/courses\.illinois\.edu\/cisapp\/explorer\/schedule/;
   if (!uiucCisExplorerPattern.test(url)) {
     throw new Error(
       'The \"url\" parameter must be a UIUC CIS API Explorer course URL (like https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml).'
     );
   }
 
-  // Send a request to the URL using axios
-  const request = await axios.get(url).catch((error) => {
-    // catch 404 and print accordingly
-    if (error.response.status === 404) {
-      throw new Error(
-        'URL returned a 404. The "url" parameter must be a UIUC CIS Explorer course URL (like https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml).'
-      );
-    }
-  });
-
-  // Make sure the response contains the <sections> tag
-  if (!request.data.includes("<sections>")) {
+  // Make sure URL matches the pattern https://courses.illinois.edu/cisapp/explorer/schedule/:year/:term/:subject/:course.xml
+  const request = new XMLHttpRequest();
+  request.open("GET", url, false);
+  request.send(null);
+  if (request.status !== 200) {
     throw new Error(
-      'Didn\'t find "<sections>" tag inside the response. The "url" parameter must be a UIUC CIS Explorer course URL (like https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml).'
+      'The \"url\" parameter must be a UIUC CIS API Explorer course URL (like https://courses.illinois.edu/cisapp/explorer/schedule/2012/spring/AAS/120.xml).'
     );
   }
 
+  url = url.split("?")[0];
   url = url.replace("/cisapp/explorer", "/search");
   url = url.replace(".xml", "");
 
