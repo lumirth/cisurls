@@ -104,6 +104,10 @@ function convertCourseURL(url) {
     );
   }
 
+  // capitalize the department
+  const department = url.split("/")[6];
+  url = url.replace(department, department.toUpperCase());
+
   url = url.replace("/cisapp/explorer", "/search");
   url = url.replace(".xml", "");
 
