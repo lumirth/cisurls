@@ -90,6 +90,9 @@ function convertCourseURL(url) {
     );
   }
 
+  // Remove parameters
+  url = url.split("?")[0];
+
   // Make sure URL matches the pattern https://courses.illinois.edu/cisapp/explorer/schedule/:year/:term/:subject/:course.xml
   const courseUrlPattern = /^https:\/\/courses\.illinois\.edu\/cisapp\/explorer\/schedule\/\d{4}\/(spring|summer|fall|winter)\/[A-Z]{2,4}\/\d{3}\.xml$/; 
   if (!courseUrlPattern.test(url)) {
@@ -98,7 +101,6 @@ function convertCourseURL(url) {
     );
   }
 
-  url = url.split("?")[0];
   url = url.replace("/cisapp/explorer", "/search");
   url = url.replace(".xml", "");
 
