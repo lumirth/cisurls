@@ -1,6 +1,6 @@
 # UIUC CIS API URL Tools
 
-[![npm version](https://img.shields.io/npm/v/uiuc-cis-url-utils)](https://www.npmjs.com/package/uiuc-cisapi-urls) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://img.shields.io/npm/dt/uiuc-cisapi-urls.svg)](https://www.npmjs.com/package/uiuc-cisapi-urls)
+[![npm version](https://img.shields.io/npm/v/cisurls)](https://www.npmjs.com/package/uiuc-cisapi-urls) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://img.shields.io/npm/dt/uiuc-cisapi-urls.svg)](https://www.npmjs.com/package/uiuc-cisapi-urls)
 
 Some very basic UIUC Course Information Suite(CIS) API URL utilities. Fix URLs from the [documentation](https://courses.illinois.edu/cisdocs/api)(from `cisapi` to `cisapp/explorer`) to make them plug-and-play, take API URL(`cisapp/explorer`) and make it courses.illinois.edu web page URL, and maybe more in the future.
 
