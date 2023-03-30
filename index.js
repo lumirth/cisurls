@@ -93,8 +93,11 @@ function convertCourseURL(url) {
   // Remove parameters
   url = url.split("?")[0];
 
+  // make all letters lowercase
+  url = url.toLowerCase();
+
   // Make sure URL matches the pattern https://courses.illinois.edu/cisapp/explorer/schedule/:year/:term/:subject/:course.xml
-  const courseUrlPattern = /^https:\/\/courses\.illinois\.edu\/cisapp\/explorer\/schedule\/\d{4}\/(spring|summer|fall|winter)\/[A-Z]{2,4}\/\d{3}\.xml$/; 
+  const courseUrlPattern = /^https:\/\/courses\.illinois\.edu\/cisapp\/explorer\/schedule\/\d{4}\/(spring|summer|fall|winter)\/[a-z]{2,5}\/\d{3}\.xml$/; 
   if (!courseUrlPattern.test(url)) {
     throw new Error(
       'The \"url\" parameter must be a UIUC CIS API Explorer course URL (like /:year/:term/:department/:course.xml).'
