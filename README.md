@@ -4,7 +4,7 @@
 
 Some very basic UIUC Course Information Suite(CIS) API URL utilities. Fix URLs from the [documentation](https://courses.illinois.edu/cisdocs/api)(from `cisapi` to `cisapp/explorer`) to make them plug-and-play, take API URL(`cisapp/explorer`) and make it courses.illinois.edu web page URL, and maybe more in the future.
 
-A web interface for this module is available at [mirth.cc/cisurls](https://mirth.cc/cisurls).
+A web interface for this module is available at [mirth.cc/cisurls-web](https://mirth.cc/cisurls-web).
 
 ## Installation
 
