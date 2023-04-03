@@ -33,6 +33,12 @@ describe("fixDocumentationURL", () => {
       'The "url" parameter must be a UIUC CIS API URL (like http(s)://courses.illinois.edu/cisapi/)."'
     );
   });
+
+  test ("should throw an error if url is not a UIUC CIS API schedule endpoint", () => {
+    expect(() => fixDocumentationURL("https://courses.illinois.edu/cisapi/")).toThrow(
+      'The "url" parameter must use the schedule endpoint (like http(s)://courses.illinois.edu/cisapi/schedule/)."'
+    );
+  });
 });
 
 describe('convertCourseURL', () => {

@@ -38,6 +38,14 @@ function fixDocumentationURL(url, addCascade = false) {
   // Replace "/cisapi" with "/cisapp/explorer"
   url = url.replace("/cisapi", "/cisapp/explorer");
 
+  // Error on any other endpoint besides /schedule.
+  const endpointPattern = /^https:\/\/courses\.illinois\.edu\/cisapp\/explorer\/schedule/;
+  if (!endpointPattern.test(url)) {
+    throw new Error(
+      'The \"url\" parameter must use the schedule endpoint (like http(s)://courses.illinois.edu/cisapi/schedule/)."'
+    );
+  }
+  
   // Add ".xml" before the parameters if it doesn't already exist
   if (!url.includes(".xml")) {
     const [baseUrl, queryParams] = url.split("?");
@@ -105,7 +113,7 @@ function convertCourseURL(url) {
   }
 
   // capitalize the department
-  const department = url.split("/")[6];
+  const department = url.split("/")[8];
   url = url.replace(department, department.toUpperCase());
 
   url = url.replace("/cisapp/explorer", "/search");

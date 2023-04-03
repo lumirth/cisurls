@@ -6,18 +6,29 @@ Some very basic UIUC Course Information Suite(CIS) API URL utilities. Fix URLs f
 
 A web interface for this module is available at [mirth.cc/cisurls-web](https://mirth.cc/cisurls-web).
 
+## Info
+
+The fixDocumentationURL() function reliably handles:
+- `/schedule/` endpoints
+
+It does **not** handle:
+- `/catalog` endpoints (use `/schedule` instead)
+- `/gened` endpoints (use `/schedule/courses` instead)
+- `/term` endpoints (use `/schedule` instead)
+- `/subject` endpoints (use `/schedule` instead)
+
 ## Installation
 
 Install via npm:
 
 `````````
-npm install uiuc-cis-url-utils
+npm install cisurls
 `````````
 
 ## Usage
 
 `````````javascript
-const { fixDocumentationURL, convertCourseURL } = require("uiuc-cis-url-utils");
+const { fixDocumentationURL, convertCourseURL } = require("cisurls");
 // Fix a URL from the UIUC CIS API documentation
 const fixedUrl = fixDocumentationURL(
   "http://courses.illinois.edu/cisapi/schedule/courses?year=2012&term=spring§ionTypeCode=LEC§ionTypeCode=Q&collegeCode=KV&creditHours=3&subject=CHEM&sessionId=1&gened=NAT&qp=atomic+structure"
